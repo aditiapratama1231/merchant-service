@@ -3,7 +3,7 @@ package service
 import (
 	"context"
 	"log"
-	pbproduct "qasir-supplier/merchant/pb/product"
+	pbinventory "qasir-supplier/merchant/pb/inventory"
 	"time"
 
 	"google.golang.org/grpc"
@@ -20,7 +20,7 @@ func NewMerchantService() MerchantService {
 }
 
 // GetProduct from Inventory Service
-func GetProduct(client pbproduct.ProductsClient, point *pbproduct.ProductRequest) string {
+func GetProduct(client pbinventory.ProductsClient, point *pbinventory.ProductRequest) string {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	feature, err := client.GetProducts(ctx, point)
@@ -38,7 +38,7 @@ func (merchantService) GetMerchants(ctx context.Context) (string, error) {
 	}
 
 	// client := pb.NewAddClient(conn)
-	client := pbproduct.NewProductsClient(conn)
-	product := GetProduct(client, &pbproduct.ProductRequest{Id: 1})
+	client := pbinventory.NewProductsClient(conn)
+	product := GetProduct(client, &pbinventory.ProductRequest{Id: 1})
 	return "Merchants Successfully Loaded" + " and " + product, nil
 }
