@@ -1,3 +1,5 @@
+# https://ops.tips/blog/minimal-golang-makefile/
+
 VERSION         :=      $(shell cat ./VERSION)
 
 all: install
