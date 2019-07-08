@@ -2,6 +2,7 @@ create_table("merchants") {
   t.Column("id", "integer", {primary: true})
   t.Column("subdomain", "string", {"size": 50})
   t.Column("bussiness_name", "string", {"size": 100})
+  t.Column("bussiness_type", "string", {"size": 5})
   t.Column("first_name", "string", {"size": 100})
   t.Column("last_name", "string", {"size": 100, "null": true})
   t.Column("email", "string", {"null": true})
