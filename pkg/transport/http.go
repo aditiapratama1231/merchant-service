@@ -47,12 +47,50 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 		request.EncodeResponse,
 	)
 
+	//Outlet handler
+	getOutletsHandler := httptransport.NewServer(
+		endpoints.GetOutletsEndpoint,
+		request.DecodeGetOutletsRequest,
+		request.EncodeResponse,
+	)
+
+	showOutletHandler := httptransport.NewServer(
+		endpoints.ShowOutletEndpoint,
+		request.DecodeShowOutletRequest,
+		request.EncodeResponse,
+	)
+
+	createOutletHandler := httptransport.NewServer(
+		endpoints.CreateOutletEndpoint,
+		request.DecodeCreateOutletRequest,
+		request.EncodeResponse,
+	)
+
+	updateOutletHandler := httptransport.NewServer(
+		endpoints.UpdateOutletEndpoint,
+		request.DecodeUpdateOutletRequest,
+		request.EncodeResponse,
+	)
+
+	deleteOutletHandler := httptransport.NewServer(
+		endpoints.DeleteOutletEndpoint,
+		request.DecodeDeleteOutletRequest,
+		request.EncodeResponse,
+	)
+
 	// merchant handler
 	r.Handle("/merchants", getMerchantsHandler).Methods("GET")
 	r.Handle("/merchants/create", createMerchantHandler).Methods("POST")
 	r.Handle("/merchants/{id}", showMerchantHandler).Methods("GET")
 	r.Handle("/merchants/{id}/update", updateMerchanthandler).Methods("PATCH")
 	r.Handle("/merchants/{id}/delete", deleteMerchantHandler).Methods("DELETE")
+
+	// outlet handler
+	r.Handle("/outlets", getOutletsHandler).Methods("GET")
+	r.Handle("/outlets/create", createOutletHandler).Methods("POST")
+	r.Handle("/outlets/{id}", showOutletHandler).Methods("GET")
+	r.Handle("/outlets/{id}/update", updateOutletHandler).Methods("PATCH")
+	r.Handle("/outlets/{id}/delete", deleteOutletHandler).Methods("DELETE")
 
 	return r
 }

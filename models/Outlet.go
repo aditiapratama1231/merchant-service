@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -25,4 +27,13 @@ type Outlet struct {
 	CreatedBy           int64  `gorm:"column:created_by" json:"created_by"`
 	UpdatedBy           int64  `gorm:"column:updated_by" json:"updated_by"`
 	DeletedBy           int64  `gorm:"column:deleted_by" json:"deleted_by"`
+}
+
+//InsertOutlet  for insert outlet to db
+func InsertOutlet(db *gorm.DB, p *Outlet) (err error) {
+	if err = db.Save(p).Error; err != nil {
+		fmt.Println(err)
+		return err
+	}
+	return nil
 }

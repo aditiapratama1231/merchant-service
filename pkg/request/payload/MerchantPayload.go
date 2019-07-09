@@ -24,27 +24,6 @@ type Merchant struct {
 	IsSupplier     int64  `json:"is_supplier"`
 }
 
-type Outlet struct {
-	MerchantID          int64  `json:"merchant_id"`
-	Code                string `json:"code"`
-	Name                string `json:"name"`
-	Phone               string `json:"phone"`
-	Image               string `json:"image"`
-	PlaceAddress        string `json:"place_address"`
-	PlaceLongitude      string `json:"place_longitude"`
-	PlaceLatitude       string `json:"place_latitude"`
-	MapAddress          string `json:"map_address"`
-	PlaceLocation       int64  `json:"place_location"`
-	PlacePostalcode     string `json:"place_postalcode"`
-	ReceiptName         string `json:"receipt_name"`
-	ReceiptShowPlace    int8   `json:"receipt_show_place"`
-	ReceiptShowLocation int8   `json:"receipt_show_location"`
-	ReceiptShowPhone    int8   `json:"receipt_show_phone"`
-	CreatedBy           int64  `json:"created_by"`
-	UpdatedBy           int64  `json:"updated_by"`
-	DeletedBy           int64  `json:"deleted_by"`
-}
-
 type OutletCoverage struct {
 	OutletID   int64 `json:"outlet_id"`
 	LocationID int64 `json:"location_id"`
