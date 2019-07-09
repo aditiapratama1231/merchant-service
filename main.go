@@ -41,7 +41,6 @@ func main() {
 	ctx := context.Background()
 
 	// define our inventory services
-	srvProduct := service.NewProdutService()
 	srvMerchant := service.NewMerchantService(db)
 
 	errChan := make(chan error)
@@ -54,12 +53,6 @@ func main() {
 
 	// mapping endpoints
 	endpoints := endpoint.Endpoints{
-		// products endpoint
-		GetProductsEndpoint:   endpoint.MakeGetProductsEndpoint(srvProduct),
-		CreateProductEndpoint: endpoint.MakeCreateProductEndpoint(srvProduct),
-		ShowProductsEndpoint:  endpoint.MakeShowProductEndpoint(srvProduct),
-		UpdateProductEnpoint:  endpoint.MakeUpdateProductEndpoint(srvProduct),
-		DeleteProductEnpoint:  endpoint.MakeDeleteProductEndpoint(srvProduct),
 
 		// merchant endpoint
 		GetMerchantsEndpoint:   endpoint.MakeGetMerchantsEndpoint(srvMerchant),
