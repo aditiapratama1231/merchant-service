@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -14,4 +16,13 @@ type Location struct {
 	MapName    string `gorm:"column:map_name" json:"map_name"`
 	Image      string `gorm:"column:image" json:"image"`
 	Caption    string `gorm:"column:caption" json:"caption"`
+}
+
+//InsertLocation  for insert outlet to db
+func InsertLocation(db *gorm.DB, p *Location) (err error) {
+	if err = db.Save(p).Error; err != nil {
+		fmt.Println(err)
+		return err
+	}
+	return nil
 }

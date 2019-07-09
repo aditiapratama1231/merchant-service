@@ -15,4 +15,10 @@ type Endpoints struct {
 	CreateOutletEndpoint endpoint.Endpoint
 	UpdateOutletEndpoint endpoint.Endpoint
 	DeleteOutletEndpoint endpoint.Endpoint
+
+	GetLocationsEndpoint   endpoint.Endpoint
+	ShowLocationEndpoint   endpoint.Endpoint
+	CreateLocationEndpoint endpoint.Endpoint
+	UpdateLocationEndpoint endpoint.Endpoint
+	DeleteLocationEndpoint endpoint.Endpoint
 }

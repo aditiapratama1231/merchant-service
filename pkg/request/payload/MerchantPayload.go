@@ -24,21 +24,6 @@ type Merchant struct {
 	IsSupplier     int64  `json:"is_supplier"`
 }
 
-type OutletCoverage struct {
-	OutletID   int64 `json:"outlet_id"`
-	LocationID int64 `json:"location_id"`
-}
-
-type Location struct {
-	Name       string `json:"name"`
-	Type       int16  `json:"type"`
-	Parent     int64  `json:"parent"`
-	PostalCode string `json:"postal_code"`
-	MapName    string `json:"map_name"`
-	Image      string `json:"image"`
-	Caption    string `json:"caption"`
-}
-
 //GetMerchantsRequest show all merchant
 type GetMerchantsRequest struct{}
 

@@ -43,6 +43,7 @@ func main() {
 	// define our inventory services
 	srvMerchant := service.NewMerchantService(db)
 	srvOutlet := service.NewOutletService(db)
+	srvLocation := service.NewLocationService(db)
 
 	errChan := make(chan error)
 
@@ -62,12 +63,19 @@ func main() {
 		UpdateMerchantEndpoint: endpoint.MakeUpdateMerchantEndpoint(srvMerchant),
 		DeleteMerchantEndpoint: endpoint.MakeDeleteMerchantEndpoint(srvMerchant),
 
-		// merchant endpoint
+		// outlet endpoint
 		GetOutletsEndpoint:   endpoint.MakeGetOutletsEndpoint(srvOutlet),
 		ShowOutletEndpoint:   endpoint.MakeShowOutletEndpoint(srvOutlet),
 		CreateOutletEndpoint: endpoint.MakeCreateOutletEndpoint(srvOutlet),
 		UpdateOutletEndpoint: endpoint.MakeUpdateOutletEndpoint(srvOutlet),
 		DeleteOutletEndpoint: endpoint.MakeDeleteOutletEndpoint(srvOutlet),
+
+		// location endpoint
+		GetLocationsEndpoint:   endpoint.MakeGetLocationsEndpoint(srvLocation),
+		ShowLocationEndpoint:   endpoint.MakeShowLocationEndpoint(srvLocation),
+		CreateLocationEndpoint: endpoint.MakeCreateLocationEndpoint(srvLocation),
+		UpdateLocationEndpoint: endpoint.MakeUpdateLocationEndpoint(srvLocation),
+		DeleteLocationEndpoint: endpoint.MakeDeleteLocationEndpoint(srvLocation),
 	}
 
 	// Run HTTP Server

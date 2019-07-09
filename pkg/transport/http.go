@@ -78,6 +78,37 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 		request.EncodeResponse,
 	)
 
+	//Location handler
+	getLocationsHandler := httptransport.NewServer(
+		endpoints.GetLocationsEndpoint,
+		request.DecodeGetLocationsRequest,
+		request.EncodeResponse,
+	)
+
+	showLocationHandler := httptransport.NewServer(
+		endpoints.ShowLocationEndpoint,
+		request.DecodeShowLocationRequest,
+		request.EncodeResponse,
+	)
+
+	createLocationHandler := httptransport.NewServer(
+		endpoints.CreateLocationEndpoint,
+		request.DecodeCreateLocationRequest,
+		request.EncodeResponse,
+	)
+
+	updateLocationHandler := httptransport.NewServer(
+		endpoints.UpdateLocationEndpoint,
+		request.DecodeUpdateLocationRequest,
+		request.EncodeResponse,
+	)
+
+	deleteLocationHandler := httptransport.NewServer(
+		endpoints.DeleteLocationEndpoint,
+		request.DecodeDeleteLocationRequest,
+		request.EncodeResponse,
+	)
+
 	// merchant handler
 	r.Handle("/merchants", getMerchantsHandler).Methods("GET")
 	r.Handle("/merchants/create", createMerchantHandler).Methods("POST")
@@ -91,6 +122,13 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 	r.Handle("/outlets/{id}", showOutletHandler).Methods("GET")
 	r.Handle("/outlets/{id}/update", updateOutletHandler).Methods("PATCH")
 	r.Handle("/outlets/{id}/delete", deleteOutletHandler).Methods("DELETE")
+
+	// location handler
+	r.Handle("/locations", getLocationsHandler).Methods("GET")
+	r.Handle("/locations/create", createLocationHandler).Methods("POST")
+	r.Handle("/locations/{id}", showLocationHandler).Methods("GET")
+	r.Handle("/locations/{id}/update", updateLocationHandler).Methods("PATCH")
+	r.Handle("/locations/{id}/delete", deleteLocationHandler).Methods("DELETE")
 
 	return r
 }
