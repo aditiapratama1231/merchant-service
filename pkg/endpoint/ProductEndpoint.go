@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 
-	models "qasir-supplier/inventory/models"
-	payload "qasir-supplier/inventory/pkg/request/payload" // part of transport
-	"qasir-supplier/inventory/pkg/service"
+	models "qasir-supplier/merchant/models"
+	payload "qasir-supplier/merchant/pkg/request/payload" // part of transport
+	"qasir-supplier/merchant/pkg/service"
 
 	"github.com/go-kit/kit/endpoint"
 )

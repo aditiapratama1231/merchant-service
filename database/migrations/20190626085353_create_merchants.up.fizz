@@ -1,8 +1,8 @@
 create_table("merchants") {
   t.Column("id", "integer", {primary: true})
   t.Column("subdomain", "string", {"size": 50})
-  t.Column("bussiness_name", "string", {"size": 100})
-  t.Column("bussiness_type", "string", {"size": 5})
+  t.Column("business_name", "string", {"size": 100})
+  t.Column("business_type", "string", {"size": 5})
   t.Column("first_name", "string", {"size": 100})
   t.Column("last_name", "string", {"size": 100, "null": true})
   t.Column("email", "string", {"null": true})
@@ -19,5 +19,5 @@ create_table("merchants") {
   t.Column("is_store", "tinyint", {"size": 4})
   t.Column("is_mitra", "tinyint", {"size": 4})
   t.Column("referral_code", "string", {})
-  t.Column("is_suppplier", "tinyint", {"size": 4})
+  t.Column("is_supplier", "tinyint", {"size": 4})
 }

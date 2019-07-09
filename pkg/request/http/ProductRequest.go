@@ -7,7 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 
-	payload "qasir-supplier/inventory/pkg/request/payload"
+	payload "qasir-supplier/merchant/pkg/request/payload"
 )
 
 // In the second part we will write "decoders" for our incoming requests

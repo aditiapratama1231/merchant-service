@@ -10,5 +10,9 @@ type Endpoints struct {
 	UpdateProductEnpoint  endpoint.Endpoint
 	DeleteProductEnpoint  endpoint.Endpoint
 
-	GetBrandsEndpoint endpoint.Endpoint
+	GetMerchantsEndpoint   endpoint.Endpoint
+	ShowMerchantEndpoint   endpoint.Endpoint
+	CreateMerchantEndpoint endpoint.Endpoint
+	UpdateMerchantEndpoint endpoint.Endpoint
+	DeleteMerchantEndpoint endpoint.Endpoint
 }

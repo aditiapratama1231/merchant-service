@@ -2,8 +2,8 @@ package database
 
 import (
 	"fmt"
-	"log"
 	"os"
+	"time"
 
 	"github.com/jinzhu/gorm"
 	// _ "github.com/jinzhu/gorm/dialects/postgres" //for import postgres
@@ -29,6 +29,10 @@ func DBInit() *gorm.DB {
 	if err != nil {
 		panic("failed to connect to database")
 	}
-	log.Println("Connected to database")
+	db.DB().SetConnMaxLifetime(time.Minute * 5)
+	db.DB().SetMaxIdleConns(0)
+	db.DB().SetMaxOpenConns(5)
+
+	db.LogMode(true)
 	return db
 }

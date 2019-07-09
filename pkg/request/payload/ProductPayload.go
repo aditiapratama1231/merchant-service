@@ -1,7 +1,7 @@
 package request
 
 import (
-	models "qasir-supplier/inventory/models"
+	models "qasir-supplier/merchant/models"
 )
 
 type Product struct {
@@ -25,7 +25,7 @@ type GetProductsResponse struct {
 
 // Show Product
 type ShowProductRequest struct {
-	Id string `"json:id"`
+	Id string `json:"id"`
 }
 
 type ShowProductResponse struct {
@@ -39,26 +39,26 @@ type CreateProductRequest struct {
 }
 
 type CreateProductResponse struct {
-	Message    string `"json:message"`
-	StatusCode int32  `"json:status_code"`
+	Message    string `json:"message"`
+	StatusCode int32  `json:"status_code"`
 }
 
 // Update Product
 type UpdateProductRequest struct {
-	Id string `"json:id"`
+	Id string `json:"id"`
 	Product
 }
 
 type UpdateProductResponse struct {
-	Message    string `"json:message"`
-	StatusCode int32  `"json:status_code"`
+	Message    string `json:"message"`
+	StatusCode int32  `json:"status_code"`
 }
 
 type DeleteProductRequest struct {
-	Id string `"json:id"`
+	Id string `json:"id"`
 }
 
 type DeleteProductResponse struct {
-	Message    string `"json:message"`
-	StatusCode int32  `"json:status_code"`
+	Message    string `json:"message"`
+	StatusCode int32  `json:"status_code"`
 }

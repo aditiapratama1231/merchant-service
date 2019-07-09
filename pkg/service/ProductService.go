@@ -1,9 +1,9 @@
 package service
 
 import (
-	db "qasir-supplier/inventory/database"
-	models "qasir-supplier/inventory/models"
-	payload "qasir-supplier/inventory/pkg/request/payload" // part of transport
+	db "qasir-supplier/merchant/database"
+	models "qasir-supplier/merchant/models"
+	payload "qasir-supplier/merchant/pkg/request/payload" // part of transport
 )
 
 type ProductService interface {

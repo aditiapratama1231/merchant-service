@@ -5,17 +5,18 @@ import (
 	"flag"
 	"fmt"
 	"log"
-
-	//"net"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 
+	//"net"
+
 	//"qasir-supplier/inventory/pb"
-	"qasir-supplier/inventory/pkg/endpoint"
-	"qasir-supplier/inventory/pkg/service"
-	transport "qasir-supplier/inventory/pkg/transport"
+	"qasir-supplier/merchant/database"
+	"qasir-supplier/merchant/pkg/endpoint"
+	"qasir-supplier/merchant/pkg/service"
+	transport "qasir-supplier/merchant/pkg/transport"
 
 	"github.com/joho/godotenv"
 	//"google.golang.org/grpc"
@@ -27,7 +28,9 @@ func main() {
 		fmt.Print(e)
 	}
 
-	httpPort := os.Getenv("INVENTORY_HTTP_PORT")
+	db := database.DBInit()
+
+	httpPort := os.Getenv("MERCHANT_HTTP_PORT")
 	//grpcPort := os.Getenv("INVENTORY_GRPC_PORT")
 
 	var (
@@ -39,7 +42,7 @@ func main() {
 
 	// define our inventory services
 	srvProduct := service.NewProdutService()
-	srvBrand := service.NewBrandService()
+	srvMerchant := service.NewMerchantService(db)
 
 	errChan := make(chan error)
 
@@ -58,13 +61,17 @@ func main() {
 		UpdateProductEnpoint:  endpoint.MakeUpdateProductEndpoint(srvProduct),
 		DeleteProductEnpoint:  endpoint.MakeDeleteProductEndpoint(srvProduct),
 
-		// brands endpoint
-		GetBrandsEndpoint: endpoint.MakeGetBrandsEndpoint(srvBrand),
+		// merchant endpoint
+		GetMerchantsEndpoint:   endpoint.MakeGetMerchantsEndpoint(srvMerchant),
+		ShowMerchantEndpoint:   endpoint.MakeShowMerchantEndpoint(srvMerchant),
+		CreateMerchantEndpoint: endpoint.MakeCreateMerchantEndpoint(srvMerchant),
+		UpdateMerchantEndpoint: endpoint.MakeUpdateMerchantEndpoint(srvMerchant),
+		DeleteMerchantEndpoint: endpoint.MakeDeleteMerchantEndpoint(srvMerchant),
 	}
 
 	// Run HTTP Server
 	go func() {
-		log.Println("Inventory Service (http) is listening on port", *httpAddr)
+		log.Println("Merchant Service (http) is listening on port", *httpAddr)
 		handler := transport.NewHTTPServer(ctx, endpoints)
 		errChan <- http.ListenAndServe(*httpAddr, handler)
 	}()
