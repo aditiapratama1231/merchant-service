@@ -20,7 +20,7 @@ func DecodeGetOutletsRequest(ctx context.Context, r *http.Request) (interface{},
 func DecodeShowOutletRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	qs := mux.Vars(r)
 	req := payload.ShowOutletRequest{
-		Id: qs["id"],
+		ID: qs["id"],
 	}
 	return req, nil
 }
@@ -36,7 +36,7 @@ func DecodeCreateOutletRequest(ctx context.Context, r *http.Request) (interface{
 func DecodeUpdateOutletRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	qs := mux.Vars(r)
 	req := payload.UpdateOutletRequest{
-		Id: qs["id"],
+		ID: qs["id"],
 	}
 	err := json.NewDecoder(r.Body).Decode(&req)
 	return req, err
@@ -46,7 +46,7 @@ func DecodeUpdateOutletRequest(ctx context.Context, r *http.Request) (interface{
 func DecodeDeleteOutletRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	qs := mux.Vars(r)
 	req := payload.DeleteOutletRequest{
-		Id: qs["id"],
+		ID: qs["id"],
 	}
 	return req, nil
 }

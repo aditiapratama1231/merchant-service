@@ -4,6 +4,7 @@ import (
 	models "qasir-supplier/merchant/models"
 )
 
+//Outlet struct
 type Outlet struct {
 	MerchantID          int64                   `json:"merchant_id"`
 	Code                string                  `json:"code"`
@@ -37,7 +38,7 @@ type GetOutletsResponse struct {
 
 //ShowOutletRequest to our server
 type ShowOutletRequest struct {
-	Id string `json:"id"`
+	ID string `json:"id"`
 }
 
 //ShowOutletResponse from our server
@@ -59,7 +60,7 @@ type CreateOutletResponse struct {
 
 // UpdateOutletRequest to our server
 type UpdateOutletRequest struct {
-	Id string `json:"id"`
+	ID string `json:"id"`
 	Outlet
 }
 
@@ -71,7 +72,7 @@ type UpdateOutletResponse struct {
 
 //DeleteOutletRequest to our server
 type DeleteOutletRequest struct {
-	Id string `json:"id"`
+	ID string `json:"id"`
 }
 
 //DeleteOutletResponse from our server

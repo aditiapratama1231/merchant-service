@@ -21,6 +21,7 @@ func MakeGetMerchantsEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	}
 }
 
+//MakeShowMerchantEndpoint //
 func MakeShowMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.ShowMerchantRequest)
@@ -31,6 +32,7 @@ func MakeShowMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	}
 }
 
+// MakeCreateMerchantEndpoint /
 func MakeCreateMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.CreateMerchantRequest)
@@ -39,6 +41,7 @@ func MakeCreateMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	}
 }
 
+//MakeUpdateMerchantEndpoint //
 func MakeUpdateMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.UpdateMerchantRequest)
@@ -47,6 +50,7 @@ func MakeUpdateMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	}
 }
 
+// MakeDeleteMerchantEndpoint //
 func MakeDeleteMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.DeleteMerchantRequest)
@@ -55,6 +59,7 @@ func MakeDeleteMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	}
 }
 
+//GetMerchants //
 // func (e Endpoints) GetMerchants(ctx context.Context) ([]models.Merchant, error) {
 // 	req := payload.GetMerchantsRequest{}
 // 	resp, err := e.GetMerchantsEndpoint(ctx, req)
@@ -68,6 +73,7 @@ func MakeDeleteMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 // 	return getResp.Merchants, nil
 // }
 
+// ShowMerchant //
 func (e Endpoints) ShowMerchant(ctx context.Context) payload.ShowMerchantResponse {
 	req := payload.ShowMerchantRequest{}
 	resp, _ := e.ShowMerchantEndpoint(ctx, req)
@@ -75,6 +81,7 @@ func (e Endpoints) ShowMerchant(ctx context.Context) payload.ShowMerchantRespons
 	return getResp
 }
 
+// CreateMerchant //
 func (e Endpoints) CreateMerchant(ctx context.Context, data payload.CreateMerchantRequest) (payload.CreateMerchantResponse, error) {
 	req := payload.CreateMerchantRequest{}
 	resp, err := e.CreateMerchantEndpoint(ctx, req)
@@ -85,6 +92,7 @@ func (e Endpoints) CreateMerchant(ctx context.Context, data payload.CreateMercha
 	return getResp, nil
 }
 
+//UpdateMerchant //
 func (e Endpoints) UpdateMerchant(ctx context.Context, data payload.UpdateMerchantResponse) (payload.UpdateMerchantResponse, error) {
 	req := payload.UpdateMerchantRequest{}
 	resp, err := e.UpdateMerchantEndpoint(ctx, req)
@@ -95,6 +103,7 @@ func (e Endpoints) UpdateMerchant(ctx context.Context, data payload.UpdateMercha
 	return getResp, nil
 }
 
+//DeleteMerchant //
 func (e Endpoints) DeleteMerchant(ctx context.Context) (payload.DeleteMerchantResponse, error) {
 	req := payload.DeleteMerchantRequest{}
 	resp, err := e.DeleteMerchantEndpoint(ctx, req)

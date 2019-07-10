@@ -27,7 +27,7 @@ func MakeShowOutletEndpoint(srv service.OutletService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.ShowOutletRequest)
 		//fmt.Println("here")
-		d, err := srv.ShowOutlet(req.Id)
+		d, err := srv.ShowOutlet(req.ID)
 
 		if err != nil {
 			return payload.ShowOutletResponse{d, err.Error()}, nil
@@ -49,19 +49,21 @@ func MakeCreateOutletEndpoint(srv service.OutletService) endpoint.Endpoint {
 func MakeUpdateOutletEndpoint(srv service.OutletService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.UpdateOutletRequest)
-		d := srv.UpdateOutlet(req, req.Id)
+		d := srv.UpdateOutlet(req, req.ID)
 		return payload.UpdateOutletResponse{d.Message, d.StatusCode}, nil
 	}
 }
 
+// MakeDeleteOutletEndpoint //
 func MakeDeleteOutletEndpoint(srv service.OutletService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.DeleteOutletRequest)
-		d := srv.DeleteOutlet(req.Id)
+		d := srv.DeleteOutlet(req.ID)
 		return payload.DeleteOutletResponse{d.Message, d.StatusCode}, nil
 	}
 }
 
+//GetOutlets //
 func (e Endpoints) GetOutlets(ctx context.Context) ([]models.Outlet, error) {
 	req := payload.GetOutletsRequest{}
 	resp, err := e.GetOutletsEndpoint(ctx, req)
@@ -75,6 +77,7 @@ func (e Endpoints) GetOutlets(ctx context.Context) ([]models.Outlet, error) {
 	return getResp.Outlets, nil
 }
 
+// ShowOutlet //
 func (e Endpoints) ShowOutlet(ctx context.Context) (models.Outlet, error) {
 	req := payload.ShowOutletRequest{}
 	resp, _ := e.ShowOutletEndpoint(ctx, req)
@@ -82,6 +85,7 @@ func (e Endpoints) ShowOutlet(ctx context.Context) (models.Outlet, error) {
 	return getResp.Outlet, nil
 }
 
+//CreateOutlet //
 func (e Endpoints) CreateOutlet(ctx context.Context, data payload.CreateOutletRequest) (payload.CreateOutletResponse, error) {
 	req := payload.CreateOutletRequest{}
 	resp, err := e.CreateOutletEndpoint(ctx, req)
@@ -92,6 +96,7 @@ func (e Endpoints) CreateOutlet(ctx context.Context, data payload.CreateOutletRe
 	return getResp, nil
 }
 
+//UpdateOutlet //
 func (e Endpoints) UpdateOutlet(ctx context.Context, data payload.UpdateOutletResponse) (payload.UpdateOutletResponse, error) {
 	req := payload.UpdateOutletRequest{}
 	resp, err := e.UpdateOutletEndpoint(ctx, req)
@@ -102,6 +107,7 @@ func (e Endpoints) UpdateOutlet(ctx context.Context, data payload.UpdateOutletRe
 	return getResp, nil
 }
 
+//DeleteOutlet //
 func (e Endpoints) DeleteOutlet(ctx context.Context) (payload.DeleteOutletResponse, error) {
 	req := payload.DeleteOutletRequest{}
 	resp, err := e.DeleteOutletEndpoint(ctx, req)
