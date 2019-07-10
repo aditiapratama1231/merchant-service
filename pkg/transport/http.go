@@ -14,7 +14,8 @@ import (
 // NewHTTPServer is a good little server
 func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handler {
 	r := mux.NewRouter()
-	r.Use(commonMiddleware) // @see https://stackoverflow.com/a/51456342
+	s := r.PathPrefix("/merchants").Subrouter()
+	s.Use(commonMiddleware) // @see https://stackoverflow.com/a/51456342
 
 	// merchant handler
 	getMerchantsHandler := httptransport.NewServer(
@@ -110,27 +111,27 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 	)
 
 	// merchant handler
-	r.Handle("/merchants", getMerchantsHandler).Methods("GET")
-	r.Handle("/merchants/create", createMerchantHandler).Methods("POST")
-	r.Handle("/merchants/{id}", showMerchantHandler).Methods("GET")
-	r.Handle("/merchants/{id}/update", updateMerchanthandler).Methods("PATCH")
-	r.Handle("/merchants/{id}/delete", deleteMerchantHandler).Methods("DELETE")
+	s.Handle("", getMerchantsHandler).Methods("GET")
+	s.Handle("/create", createMerchantHandler).Methods("POST")
+	s.Handle("/{id}", showMerchantHandler).Methods("GET")
+	s.Handle("/{id}/update", updateMerchanthandler).Methods("PATCH")
+	s.Handle("/{id}/delete", deleteMerchantHandler).Methods("DELETE")
 
 	// outlet handler
-	r.Handle("/outlets", getOutletsHandler).Methods("GET")
-	r.Handle("/outlets/create", createOutletHandler).Methods("POST")
-	r.Handle("/outlets/{id}", showOutletHandler).Methods("GET")
-	r.Handle("/outlets/{id}/update", updateOutletHandler).Methods("PATCH")
-	r.Handle("/outlets/{id}/delete", deleteOutletHandler).Methods("DELETE")
+	s.Handle("/outlets/", getOutletsHandler).Methods("GET")
+	s.Handle("/outlets/create", createOutletHandler).Methods("POST")
+	s.Handle("/outlets/{id}", showOutletHandler).Methods("GET")
+	s.Handle("/outlets/{id}/update", updateOutletHandler).Methods("PATCH")
+	s.Handle("/outlets/{id}/delete", deleteOutletHandler).Methods("DELETE")
 
 	// location handler
-	r.Handle("/locations", getLocationsHandler).Methods("GET")
-	r.Handle("/locations/create", createLocationHandler).Methods("POST")
-	r.Handle("/locations/{id}", showLocationHandler).Methods("GET")
-	r.Handle("/locations/{id}/update", updateLocationHandler).Methods("PATCH")
-	r.Handle("/locations/{id}/delete", deleteLocationHandler).Methods("DELETE")
+	s.Handle("/locations/", getLocationsHandler).Methods("GET")
+	s.Handle("/locations/create", createLocationHandler).Methods("POST")
+	s.Handle("/locations/{id}", showLocationHandler).Methods("GET")
+	s.Handle("/locations/{id}/update", updateLocationHandler).Methods("PATCH")
+	s.Handle("/locations/{id}/delete", deleteLocationHandler).Methods("DELETE")
 
-	return r
+	return s
 }
 
 func commonMiddleware(next http.Handler) http.Handler {
