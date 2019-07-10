@@ -27,7 +27,7 @@ func MakeShowLocationEndpoint(srv service.LocationService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.ShowLocationRequest)
 		//fmt.Println("here")
-		d, err := srv.ShowLocation(req.Id)
+		d, err := srv.ShowLocation(req.ID)
 
 		if err != nil {
 			return payload.ShowLocationResponse{d, err.Error()}, nil
@@ -49,7 +49,7 @@ func MakeCreateLocationEndpoint(srv service.LocationService) endpoint.Endpoint {
 func MakeUpdateLocationEndpoint(srv service.LocationService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.UpdateLocationRequest)
-		d := srv.UpdateLocation(req, req.Id)
+		d := srv.UpdateLocation(req, req.ID)
 		return payload.UpdateLocationResponse{d.Message, d.StatusCode}, nil
 	}
 }
@@ -58,7 +58,7 @@ func MakeUpdateLocationEndpoint(srv service.LocationService) endpoint.Endpoint {
 func MakeDeleteLocationEndpoint(srv service.LocationService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.DeleteLocationRequest)
-		d := srv.DeleteLocation(req.Id)
+		d := srv.DeleteLocation(req.ID)
 		return payload.DeleteLocationResponse{d.Message, d.StatusCode}, nil
 	}
 }

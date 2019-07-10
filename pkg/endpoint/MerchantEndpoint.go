@@ -2,23 +2,22 @@ package endpoint
 
 import (
 	"context"
-	"errors"
 
-	models "qasir-supplier/merchant/models"
 	payload "qasir-supplier/merchant/pkg/request/payload"
 	"qasir-supplier/merchant/pkg/service"
 
 	"github.com/go-kit/kit/endpoint"
 )
 
-//MakeGetMerchantEndpoint make endpoint
+//MakeGetMerchantsEndpoint make endpoint
 func MakeGetMerchantsEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		d, err := srv.GetMerchants()
+		req := request.(payload.GetMerchantsRequest)
+		d, err := srv.GetMerchants(req)
 		if err != nil {
-			return payload.GetMerchantsResponse{nil, err.Error()}, nil
+			return d, nil
 		}
-		return payload.GetMerchantsResponse{*d, ""}, nil
+		return d, nil
 	}
 }
 
@@ -26,12 +25,9 @@ func MakeShowMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.ShowMerchantRequest)
 		//fmt.Println("here")
-		d, err := srv.ShowMerchant(req.Id)
+		d := srv.ShowMerchant(req.ID)
+		return d, nil
 
-		if err != nil {
-			return payload.ShowMerchantResponse{d, err.Error()}, nil
-		}
-		return payload.ShowMerchantResponse{d, ""}, nil
 	}
 }
 
@@ -46,7 +42,7 @@ func MakeCreateMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 func MakeUpdateMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.UpdateMerchantRequest)
-		d := srv.UpdateMerchant(req, req.Id)
+		d := srv.UpdateMerchant(req, req.ID)
 		return payload.UpdateMerchantResponse{d.Message, d.StatusCode}, nil
 	}
 }
@@ -54,29 +50,29 @@ func MakeUpdateMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 func MakeDeleteMerchantEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(payload.DeleteMerchantRequest)
-		d := srv.DeleteMerchant(req.Id)
+		d := srv.DeleteMerchant(req.ID)
 		return payload.DeleteMerchantResponse{d.Message, d.StatusCode}, nil
 	}
 }
 
-func (e Endpoints) GetMerchants(ctx context.Context) ([]models.Merchant, error) {
-	req := payload.GetMerchantsRequest{}
-	resp, err := e.GetMerchantsEndpoint(ctx, req)
-	if err != nil {
-		return nil, err
-	}
-	getResp := resp.(payload.GetMerchantsResponse)
-	if getResp.Err != "" {
-		return nil, errors.New(getResp.Err)
-	}
-	return getResp.Merchants, nil
-}
+// func (e Endpoints) GetMerchants(ctx context.Context) ([]models.Merchant, error) {
+// 	req := payload.GetMerchantsRequest{}
+// 	resp, err := e.GetMerchantsEndpoint(ctx, req)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	getResp := resp.(payload.GetMerchantsResponse)
+// 	if getResp.Err != "" {
+// 		return nil, errors.New(getResp.Err)
+// 	}
+// 	return getResp.Merchants, nil
+// }
 
-func (e Endpoints) ShowMerchant(ctx context.Context) (models.Merchant, error) {
+func (e Endpoints) ShowMerchant(ctx context.Context) payload.ShowMerchantResponse {
 	req := payload.ShowMerchantRequest{}
 	resp, _ := e.ShowMerchantEndpoint(ctx, req)
 	getResp := resp.(payload.ShowMerchantResponse)
-	return getResp.Merchant, nil
+	return getResp
 }
 
 func (e Endpoints) CreateMerchant(ctx context.Context, data payload.CreateMerchantRequest) (payload.CreateMerchantResponse, error) {

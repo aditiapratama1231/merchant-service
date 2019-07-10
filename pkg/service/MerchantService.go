@@ -11,8 +11,8 @@ import (
 
 // MerchantService interface
 type MerchantService interface {
-	GetMerchants() (*[]models.Merchant, error)
-	ShowMerchant(string) (models.Merchant, error)
+	GetMerchants(payload.GetMerchantsRequest) (payload.GetMerchantsResponse, error)
+	ShowMerchant(string) payload.ShowMerchantResponse
 	CreateMerchant(payload.CreateMerchantRequest) payload.CreateMerchantResponse
 	UpdateMerchant(payload.UpdateMerchantRequest, string) payload.UpdateMerchantResponse
 	DeleteMerchant(string) payload.DeleteMerchantResponse
@@ -29,24 +29,100 @@ func NewMerchantService(db *gorm.DB) MerchantService {
 }
 
 //GetMerchants for get all merchant
-func (merchantService) GetMerchants() (*[]models.Merchant, error) {
-	var merchants []models.Merchant
+func (merchantService) GetMerchants(data payload.GetMerchantsRequest) (payload.GetMerchantsResponse, error) {
+	var (
+		merchants []models.Merchant
+		count     uint32
+	)
 
-	query.Find(&merchants)
+	offset := (data.PaginationRequest.Page - 1) * data.PaginationRequest.Limit
 
-	// defer query.Close()
+	query.Find(&merchants).Count(&count)
+	query.Limit(data.PaginationRequest.Limit).Offset(offset).Find(&merchants)
+	for i := range merchants {
+		query.Model(merchants[i]).Related(&merchants[i].Outlets)
+	}
+	for j := range merchants {
+		for k := range merchants[j].Outlets {
+			query.Model(merchants[j].Outlets[k]).Related(&merchants[j].Outlets[k].OutletCoverages)
 
-	return &merchants, nil
+			for l := range merchants[j].Outlets[k].OutletCoverages {
+				query.Model(merchants[j].Outlets[k].OutletCoverages[l]).Related(&merchants[j].Outlets[k].OutletCoverages[l].Location)
+			}
+		}
+	}
+
+	return payload.GetMerchantsResponse{
+		CurrentPage: data.PaginationRequest.Page,
+		Data:        merchants,
+		From:        offset + 1,
+		To:          data.PaginationRequest.Page * data.PaginationRequest.Limit,
+		PerPage:     data.PaginationRequest.Limit,
+		Total:       count,
+	}, nil
 }
 
 //ShowMerchant show merchant by id
-func (merchantService) ShowMerchant(id string) (models.Merchant, error) {
-	var merchant models.Merchant
-	query.Find(&merchant, id)
-	return merchant, nil
+func (merchantService) ShowMerchant(id string) payload.ShowMerchantResponse {
+	var (
+		merchant models.Merchant
+	)
+
+	if prd := query.Find(&merchant, id); prd.Error != nil {
+		return payload.ShowMerchantResponse{
+			Message: "Merchant Not Found",
+			Err:     true,
+		}
+	}
+	query.Model(merchant).Related(&merchant.Outlets)
+
+	for k := range merchant.Outlets {
+		query.Model(merchant.Outlets[k]).Related(&merchant.Outlets[k].OutletCoverages)
+
+		for l := range merchant.Outlets[k].OutletCoverages {
+			query.Model(merchant.Outlets[k].OutletCoverages[l]).Related(&merchant.Outlets[k].OutletCoverages[l].Location)
+		}
+	}
+
+	//fmt.Println("ini data", a)
+	response := payload.Merchant{
+		ID:             merchant.ID,
+		Subdomain:      merchant.Subdomain,
+		BusinessName:   merchant.BusinessName,
+		BusinessType:   merchant.BusinessType,
+		FirstName:      merchant.FirstName,
+		LastName:       merchant.LastName,
+		Email:          merchant.Email,
+		Mobile:         merchant.Mobile,
+		Password:       merchant.Password,
+		Status:         merchant.Status,
+		APISecretKey:   merchant.APISecretKey,
+		Passcode:       merchant.Passcode,
+		ProfilePicture: merchant.ProfilePicture,
+		LocationID:     merchant.LocationID,
+		IsStore:        merchant.IsStore,
+		IsMitra:        merchant.IsMitra,
+		ReferralCode:   merchant.ReferralCode,
+		IsSupplier:     merchant.IsSupplier,
+		Outlets:        merchant.Outlets,
+	}
+	return payload.ShowMerchantResponse{
+		Message: "Product Successfully Loaded",
+		Data:    response,
+		Err:     false,
+	}
 }
 
 func (merchantService) CreateMerchant(data payload.CreateMerchantRequest) payload.CreateMerchantResponse {
+	//field status ('CREATED', 'ACTIVE', 'INACTIVE', 'SUSPENDED')
+
+	if data.Status != "CREATED" && data.Status != "ACTIVE" && data.Status != "INACTIVE" && data.Status != "SUSPENDED" {
+		return payload.CreateMerchantResponse{
+			Message:    "Field Status no valid",
+			StatusCode: 422,
+		}
+	}
+
 	merchant := models.Merchant{
 		Subdomain:      data.Subdomain,
 		BusinessName:   data.BusinessName,
@@ -88,6 +164,13 @@ func (merchantService) UpdateMerchant(data payload.UpdateMerchantRequest, id str
 		return payload.UpdateMerchantResponse{
 			Message:    "Merchant Not Found",
 			StatusCode: 404,
+		}
+	}
+	fmt.Println("status", data.Merchant.Status)
+	if data.Merchant.Status != "CREATED" && data.Merchant.Status != "ACTIVE" && data.Merchant.Status != "INACTIVE" && data.Merchant.Status != "SUSPENDED" {
+		return payload.UpdateMerchantResponse{
+			Message:    "Field Status no valid",
+			StatusCode: 422,
 		}
 	}
 	merchant.Subdomain = data.Merchant.Subdomain

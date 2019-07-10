@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/gorilla/mux"
 
@@ -12,7 +14,17 @@ import (
 
 //DecodeGetMerchantsRequest decode our incoming requests
 func DecodeGetMerchantsRequest(ctx context.Context, r *http.Request) (interface{}, error) {
-	var req payload.GetMerchantsRequest
+	v := r.URL.Query()
+	include := strings.Split(strings.Replace(v.Get("include"), " ", "", -1), ",")
+	page, _ := strconv.ParseInt(v.Get("page"), 10, 32)
+	limit, _ := strconv.ParseInt(v.Get("limit"), 10, 32)
+	req := payload.GetMerchantsRequest{
+		PaginationRequest: payload.PaginationRequest{
+			Page:    uint32(page),
+			Limit:   uint32(limit),
+			Include: include,
+		},
+	}
 	return req, nil
 }
 
@@ -20,7 +32,7 @@ func DecodeGetMerchantsRequest(ctx context.Context, r *http.Request) (interface{
 func DecodeShowMerchantRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	qs := mux.Vars(r)
 	req := payload.ShowMerchantRequest{
-		Id: qs["id"],
+		ID: qs["id"],
 	}
 	return req, nil
 }
@@ -36,7 +48,7 @@ func DecodeCreateMerchantRequest(ctx context.Context, r *http.Request) (interfac
 func DecodeUpdateMerchantRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	qs := mux.Vars(r)
 	req := payload.UpdateMerchantRequest{
-		Id: qs["id"],
+		ID: qs["id"],
 	}
 	err := json.NewDecoder(r.Body).Decode(&req)
 	return req, err
@@ -46,7 +58,7 @@ func DecodeUpdateMerchantRequest(ctx context.Context, r *http.Request) (interfac
 func DecodeDeleteMerchantRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	qs := mux.Vars(r)
 	req := payload.DeleteMerchantRequest{
-		Id: qs["id"],
+		ID: qs["id"],
 	}
 	return req, nil
 }

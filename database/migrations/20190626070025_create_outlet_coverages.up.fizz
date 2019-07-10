@@ -2,5 +2,6 @@ create_table("outlet_coverages") {
 	t.Column("id", "integer", {primary: true})
 	t.Column("outlet_id", "integer")
 	t.Column("location_id", "integer")
+ 	t.Column("deleted_at", "timestamp", {"null": true})
 	t.Timestamps()
 }

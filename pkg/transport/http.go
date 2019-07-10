@@ -119,17 +119,17 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 
 	// outlet handler
 	s.Handle("/outlets/", getOutletsHandler).Methods("GET")
-	s.Handle("/outlets/create", createOutletHandler).Methods("POST")
-	s.Handle("/outlets/{id}", showOutletHandler).Methods("GET")
-	s.Handle("/outlets/{id}/update", updateOutletHandler).Methods("PATCH")
-	s.Handle("/outlets/{id}/delete", deleteOutletHandler).Methods("DELETE")
+	s.Handle("/outlet/create", createOutletHandler).Methods("POST")
+	s.Handle("/outlet/{id}", showOutletHandler).Methods("GET")
+	s.Handle("/outlet/{id}/update", updateOutletHandler).Methods("PATCH")
+	s.Handle("/outlet/{id}/delete", deleteOutletHandler).Methods("DELETE")
 
 	// location handler
-	s.Handle("/locations/", getLocationsHandler).Methods("GET")
+	s.Handle("/location/", getLocationsHandler).Methods("GET")
 	s.Handle("/locations/create", createLocationHandler).Methods("POST")
-	s.Handle("/locations/{id}", showLocationHandler).Methods("GET")
-	s.Handle("/locations/{id}/update", updateLocationHandler).Methods("PATCH")
-	s.Handle("/locations/{id}/delete", deleteLocationHandler).Methods("DELETE")
+	s.Handle("/location/{id}", showLocationHandler).Methods("GET")
+	s.Handle("/location/{id}/update", updateLocationHandler).Methods("PATCH")
+	s.Handle("/location/{id}/delete", deleteLocationHandler).Methods("DELETE")
 
 	return s
 }

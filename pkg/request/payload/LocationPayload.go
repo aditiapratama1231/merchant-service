@@ -4,11 +4,13 @@ import (
 	models "qasir-supplier/merchant/models"
 )
 
+//OutletCoverage struct
 type OutletCoverage struct {
 	OutletID   int64 `json:"outlet_id"`
 	LocationID int64 `json:"location_id"`
 }
 
+// Location struct
 type Location struct {
 	Name       string `json:"name"`
 	Type       int16  `json:"type"`
@@ -22,16 +24,18 @@ type Location struct {
 //GetLocationsRequest show all merchant
 type GetLocationsRequest struct{}
 
+//GetLocationsResponse struct
 type GetLocationsResponse struct {
-	Locations []models.Location `json:"location"`
+	Locations []models.Location `json:"locations"`
 	Err       string            `json:"eer,omitempty"`
 }
 
 //ShowLocationRequest by id
 type ShowLocationRequest struct {
-	Id string `json:"id"`
+	ID string `json:"id"`
 }
 
+//ShowLocationResponse struct contain response from server
 type ShowLocationResponse struct {
 	Location models.Location `json:"location,omitempty"`
 	Err      string          `json:"err,omitempty"`
@@ -42,6 +46,7 @@ type CreateLocationRequest struct {
 	Location
 }
 
+//CreateLocationResponse struct contain resp from server
 type CreateLocationResponse struct {
 	Message    string `json:"message"`
 	StatusCode int32  `json:"status_code"`
@@ -49,10 +54,11 @@ type CreateLocationResponse struct {
 
 // UpdateLocationRequest update merchant
 type UpdateLocationRequest struct {
-	Id string `json:"id"`
+	ID string `json:"id"`
 	Location
 }
 
+//UpdateLocationResponse struct
 type UpdateLocationResponse struct {
 	Message    string `json:"message"`
 	StatusCode int32  `json:"status_code"`
@@ -60,9 +66,10 @@ type UpdateLocationResponse struct {
 
 //DeleteLocationRequest delete merchant
 type DeleteLocationRequest struct {
-	Id string `json:"id"`
+	ID string `json:"id"`
 }
 
+//DeleteLocationResponse struct
 type DeleteLocationResponse struct {
 	Message    string `json:"message"`
 	StatusCode int32  `json:"status_code"`

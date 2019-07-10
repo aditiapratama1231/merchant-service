@@ -20,7 +20,7 @@ func DecodeGetLocationsRequest(ctx context.Context, r *http.Request) (interface{
 func DecodeShowLocationRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	qs := mux.Vars(r)
 	req := payload.ShowLocationRequest{
-		Id: qs["id"],
+		ID: qs["id"],
 	}
 	return req, nil
 }
@@ -36,7 +36,7 @@ func DecodeCreateLocationRequest(ctx context.Context, r *http.Request) (interfac
 func DecodeUpdateLocationRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	qs := mux.Vars(r)
 	req := payload.UpdateLocationRequest{
-		Id: qs["id"],
+		ID: qs["id"],
 	}
 	err := json.NewDecoder(r.Body).Decode(&req)
 	return req, err
@@ -46,7 +46,7 @@ func DecodeUpdateLocationRequest(ctx context.Context, r *http.Request) (interfac
 func DecodeDeleteLocationRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	qs := mux.Vars(r)
 	req := payload.DeleteLocationRequest{
-		Id: qs["id"],
+		ID: qs["id"],
 	}
 	return req, nil
 }

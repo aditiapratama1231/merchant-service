@@ -7,8 +7,9 @@ import (
 // OutletCoverage model
 type OutletCoverage struct {
 	gorm.Model
-	OutletID   int64     `gorm:"column:outlet_id" json:"outlet_id"`
-	LocationID int64     `gorm:"column:location_id" json:"location_id"`
+	OutletID   int64    `gorm:"column:outlet_id" json:"outlet_id"`
+	LocationID int64    `gorm:"column:location_id" json:"location_id"`
+	Location   Location `gorm:"foreignkey:location_id" json:"location"`
 }
 
 // // Insert Product To Database
