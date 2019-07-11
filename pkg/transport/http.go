@@ -125,8 +125,8 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 	s.Handle("/outlet/{id}/delete", deleteOutletHandler).Methods("DELETE")
 
 	// location handler
-	s.Handle("/location/", getLocationsHandler).Methods("GET")
-	s.Handle("/locations/create", createLocationHandler).Methods("POST")
+	s.Handle("/locations/", getLocationsHandler).Methods("GET")
+	s.Handle("/location/create", createLocationHandler).Methods("POST")
 	s.Handle("/location/{id}", showLocationHandler).Methods("GET")
 	s.Handle("/location/{id}/update", updateLocationHandler).Methods("PATCH")
 	s.Handle("/location/{id}/delete", deleteLocationHandler).Methods("DELETE")
