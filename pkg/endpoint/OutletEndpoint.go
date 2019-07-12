@@ -63,6 +63,15 @@ func MakeDeleteOutletEndpoint(srv service.OutletService) endpoint.Endpoint {
 	}
 }
 
+//MakeCreateOutletLocationEndpoint /
+func MakeCreateOutletLocationEndpoint(srv service.OutletService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(payload.CreateOutletLocationRequest)
+		d := srv.CreateOutletLocation(req)
+		return payload.CreateOutletLocationResponse{d.Message, d.StatusCode}, nil
+	}
+}
+
 //GetOutlets //
 func (e Endpoints) GetOutlets(ctx context.Context) ([]models.Outlet, error) {
 	req := payload.GetOutletsRequest{}
@@ -115,5 +124,16 @@ func (e Endpoints) DeleteOutlet(ctx context.Context) (payload.DeleteOutletRespon
 		return payload.DeleteOutletResponse{err.Error(), 500}, nil
 	}
 	getResp := resp.(payload.DeleteOutletResponse)
+	return getResp, nil
+}
+
+//CreateOutletLocation //
+func (e Endpoints) CreateOutletLocation(ctx context.Context, data payload.CreateOutletLocationRequest) (payload.CreateOutletLocationResponse, error) {
+	req := payload.CreateOutletLocationRequest{}
+	resp, err := e.CreateOutletEndpoint(ctx, req)
+	if err != nil {
+		return payload.CreateOutletLocationResponse{err.Error(), 500}, nil
+	}
+	getResp := resp.(payload.CreateOutletLocationResponse)
 	return getResp, nil
 }

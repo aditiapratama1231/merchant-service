@@ -50,3 +50,10 @@ func DecodeDeleteOutletRequest(ctx context.Context, r *http.Request) (interface{
 	}
 	return req, nil
 }
+
+// DecodeCreateOutletLocationRequest decode our incoming request
+func DecodeCreateOutletLocationRequest(ctx context.Context, r *http.Request) (interface{}, error) {
+	var req payload.CreateOutletLocationRequest
+	err := json.NewDecoder(r.Body).Decode(&req)
+	return req, err
+}

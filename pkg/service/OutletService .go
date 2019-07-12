@@ -16,6 +16,7 @@ type OutletService interface {
 	CreateOutlet(payload.CreateOutletRequest) payload.CreateOutletResponse
 	UpdateOutlet(payload.UpdateOutletRequest, string) payload.UpdateOutletResponse
 	DeleteOutlet(string) payload.DeleteOutletResponse
+	CreateOutletLocation(payload.CreateOutletLocationRequest) payload.CreateOutletLocationResponse
 }
 
 type outletService struct{}
@@ -132,5 +133,44 @@ func (outletService) DeleteOutlet(id string) payload.DeleteOutletResponse {
 	return payload.DeleteOutletResponse{
 		Message:    "Outlet Successfully Deleted",
 		StatusCode: 200,
+	}
+}
+
+func (outletService) CreateOutletLocation(data payload.CreateOutletLocationRequest) payload.CreateOutletLocationResponse {
+	var (
+		outlet   models.Outlet
+		location models.Location
+	)
+	//check if there is valid outlet id
+	if query.Find(&outlet, data.OutletID).RecordNotFound() {
+		return payload.CreateOutletLocationResponse{
+			Message:    "OutletID Not Found",
+			StatusCode: 404,
+		}
+	}
+
+	//check if there is valid location id
+	if query.Find(&location, data.LocationID).RecordNotFound() {
+		return payload.CreateOutletLocationResponse{
+			Message:    "LocationID Not Found",
+			StatusCode: 404,
+		}
+	}
+
+	outletCoverage := models.OutletCoverage{
+		OutletID:   data.OutletID,
+		LocationID: data.LocationID,
+	}
+	err := models.InsertOutletCoverage(query, &outletCoverage)
+	fmt.Println(&outletCoverage)
+	if err != nil {
+		return payload.CreateOutletLocationResponse{
+			Message:    err.Error(),
+			StatusCode: 500,
+		}
+	}
+	return payload.CreateOutletLocationResponse{
+		Message:    "Outlet Location Successfully added",
+		StatusCode: 201,
 	}
 }

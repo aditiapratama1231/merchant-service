@@ -80,3 +80,14 @@ type DeleteOutletResponse struct {
 	Message    string `json:"message"`
 	StatusCode int32  `json:"status_code"`
 }
+
+//CreateOutletLocationRequest struct
+type CreateOutletLocationRequest struct {
+	OutletCoverage
+}
+
+//CreateOutletLocationResponse struct
+type CreateOutletLocationResponse struct {
+	Message    string `json:"message"`
+	StatusCode int32  `json:"status_code"`
+}

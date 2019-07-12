@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -12,12 +14,12 @@ type OutletCoverage struct {
 	Location   Location `gorm:"foreignkey:location_id" json:"location"`
 }
 
-// // Insert Product To Database
-// func InsertProduct(db *gorm.DB, p *Product) (err error) {
-// 	if err = db.Save(p).Error; err != nil {
-// 		fmt.Println(err)
-// 		return err
-// 	}
+// InsertOutletCoverage /
+func InsertOutletCoverage(db *gorm.DB, p *OutletCoverage) (err error) {
+	if err = db.Save(p).Error; err != nil {
+		fmt.Println(err)
+		return err
+	}
 
-// 	return nil
-// }
+	return nil
+}

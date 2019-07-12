@@ -64,11 +64,12 @@ func main() {
 		DeleteMerchantEndpoint: endpoint.MakeDeleteMerchantEndpoint(srvMerchant),
 
 		// outlet endpoint
-		GetOutletsEndpoint:   endpoint.MakeGetOutletsEndpoint(srvOutlet),
-		ShowOutletEndpoint:   endpoint.MakeShowOutletEndpoint(srvOutlet),
-		CreateOutletEndpoint: endpoint.MakeCreateOutletEndpoint(srvOutlet),
-		UpdateOutletEndpoint: endpoint.MakeUpdateOutletEndpoint(srvOutlet),
-		DeleteOutletEndpoint: endpoint.MakeDeleteOutletEndpoint(srvOutlet),
+		GetOutletsEndpoint:           endpoint.MakeGetOutletsEndpoint(srvOutlet),
+		ShowOutletEndpoint:           endpoint.MakeShowOutletEndpoint(srvOutlet),
+		CreateOutletEndpoint:         endpoint.MakeCreateOutletEndpoint(srvOutlet),
+		CreateOutletLocationEndpoint: endpoint.MakeCreateOutletLocationEndpoint(srvOutlet),
+		UpdateOutletEndpoint:         endpoint.MakeUpdateOutletEndpoint(srvOutlet),
+		DeleteOutletEndpoint:         endpoint.MakeDeleteOutletEndpoint(srvOutlet),
 
 		// location endpoint
 		GetLocationsEndpoint:   endpoint.MakeGetLocationsEndpoint(srvLocation),

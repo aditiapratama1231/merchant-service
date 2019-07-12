@@ -10,11 +10,12 @@ type Endpoints struct {
 	UpdateMerchantEndpoint endpoint.Endpoint
 	DeleteMerchantEndpoint endpoint.Endpoint
 
-	GetOutletsEndpoint   endpoint.Endpoint
-	ShowOutletEndpoint   endpoint.Endpoint
-	CreateOutletEndpoint endpoint.Endpoint
-	UpdateOutletEndpoint endpoint.Endpoint
-	DeleteOutletEndpoint endpoint.Endpoint
+	GetOutletsEndpoint           endpoint.Endpoint
+	ShowOutletEndpoint           endpoint.Endpoint
+	CreateOutletEndpoint         endpoint.Endpoint
+	UpdateOutletEndpoint         endpoint.Endpoint
+	DeleteOutletEndpoint         endpoint.Endpoint
+	CreateOutletLocationEndpoint endpoint.Endpoint
 
 	GetLocationsEndpoint   endpoint.Endpoint
 	ShowLocationEndpoint   endpoint.Endpoint
