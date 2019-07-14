@@ -137,7 +137,7 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 	s.Handle("/locations/{id}/update", updateLocationHandler).Methods("PATCH")
 	s.Handle("/locations/{id}/delete", deleteLocationHandler).Methods("DELETE")
 
-	//this endpooint must be refactor using many many relation
+	//this endpoint must be refactor using many many relation
 	//handle outlet can add location, payload outlet id and location id post send to outlet_coverage
 	s.Handle("/outlets/add/locations", createOutletLocationHandler).Methods("POST")
 

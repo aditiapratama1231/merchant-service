@@ -6,25 +6,25 @@ import (
 
 //Merchant struct contain variable
 type Merchant struct {
-	ID             uint            `json:"ID"`
-	Subdomain      string          `json:"subdomain"`
-	BusinessName   string          `json:"business_name"`
-	BusinessType   string          `json:"business_type"`
-	FirstName      string          `json:"first_name"`
-	LastName       string          `json:"last_name"`
-	Email          string          `json:"email"`
-	Mobile         string          `json:"mobile"`
-	Password       string          `json:"password"`
-	Status         string          `json:"status"`
-	APISecretKey   string          `json:"api_secret_key"`
-	Passcode       string          `json:"passcode"`
-	ProfilePicture string          `json:"profile_picture"`
-	LocationID     int64           `json:"location_id"`
-	IsStore        int64           `json:"is_store"`
-	IsMitra        int64           `json:"is_mitra"`
-	ReferralCode   string          `json:"referral_code"`
-	IsSupplier     int64           `json:"is_supplier"`
-	Outlets        []models.Outlet `gorm:"foreignkey:merchant_id" json:"outlets"`
+	ID             uint     `json:"ID"`
+	Subdomain      string   `json:"subdomain"`
+	BusinessName   string   `json:"business_name"`
+	BusinessType   string   `json:"business_type"`
+	FirstName      string   `json:"first_name"`
+	LastName       string   `json:"last_name"`
+	Email          string   `json:"email"`
+	Mobile         string   `json:"mobile"`
+	Password       string   `json:"password"`
+	Status         string   `json:"status"`
+	APISecretKey   string   `json:"api_secret_key"`
+	Passcode       string   `json:"passcode"`
+	ProfilePicture string   `json:"profile_picture"`
+	LocationID     int64    `json:"location_id"`
+	IsStore        int64    `json:"is_store"`
+	IsMitra        int64    `json:"is_mitra"`
+	ReferralCode   string   `json:"referral_code"`
+	IsSupplier     int64    `json:"is_supplier"`
+	Outlets        []Outlet `gorm:"foreignkey:merchant_id" json:"outlets,omitempty"`
 }
 
 //GetMerchantsCoverageRequest /

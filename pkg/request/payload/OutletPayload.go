@@ -2,10 +2,13 @@ package request
 
 import (
 	models "qasir-supplier/merchant/models"
+
+	"github.com/jinzhu/gorm"
 )
 
 //Outlet struct
 type Outlet struct {
+	gorm.Model
 	MerchantID          int64                   `json:"merchant_id"`
 	Code                string                  `json:"code"`
 	Name                string                  `json:"name"`
@@ -24,7 +27,7 @@ type Outlet struct {
 	CreatedBy           int64                   `json:"created_by"`
 	UpdatedBy           int64                   `json:"updated_by"`
 	DeletedBy           int64                   `json:"deleted_by"`
-	OutletCoverages     []models.OutletCoverage `gorm:"foreignkey:outlet_id" json:"outlet_coverages"`
+	OutletCoverages     []models.OutletCoverage `gorm:"foreignkey:outlet_id" json:"outlet_coverages,omitempty"`
 }
 
 //GetOutletsRequest show all outlet to our server

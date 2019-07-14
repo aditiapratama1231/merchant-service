@@ -66,7 +66,7 @@ func (merchantService) GetMerchantsCoverage(data payload.GetMerchantsCoverageReq
 //ShowMerchant show merchant by id
 func (merchantService) ShowMerchant(id string) payload.ShowMerchantResponse {
 	var (
-		merchant models.Merchant
+		merchant payload.Merchant
 	)
 
 	if prd := query.Find(&merchant, id); prd.Error != nil {
@@ -75,41 +75,11 @@ func (merchantService) ShowMerchant(id string) payload.ShowMerchantResponse {
 			Err:     true,
 		}
 	}
-	//query.Model(merchant).Related(&merchant.Outlets)
+	query.Model(merchant).Related(&merchant.Outlets)
 
-	// for k := range merchant.Outlets {
-	// 	query.Model(merchant.Outlets[k]).Related(&merchant.Outlets[k].OutletCoverages)
-
-	// 	for l := range merchant.Outlets[k].OutletCoverages {
-	// 		query.Model(merchant.Outlets[k].OutletCoverages[l]).Related(&merchant.Outlets[k].OutletCoverages[l].Location)
-	// 	}
-	// }
-
-	//fmt.Println("ini data", a)
-	response := payload.Merchant{
-		// ID:             merchant.ID,
-		// Subdomain:      merchant.Subdomain,
-		// BusinessName:   merchant.BusinessName,
-		// BusinessType:   merchant.BusinessType,
-		// FirstName:      merchant.FirstName,
-		// LastName:       merchant.LastName,
-		// Email:          merchant.Email,
-		// Mobile:         merchant.Mobile,
-		// Password:       merchant.Password,
-		// Status:         merchant.Status,
-		// APISecretKey:   merchant.APISecretKey,
-		// Passcode:       merchant.Passcode,
-		// ProfilePicture: merchant.ProfilePicture,
-		// LocationID:     merchant.LocationID,
-		// IsStore:        merchant.IsStore,
-		// IsMitra:        merchant.IsMitra,
-		// ReferralCode:   merchant.ReferralCode,
-		// IsSupplier:     merchant.IsSupplier,
-		// Outlets:        merchant.Outlets,
-	}
 	return payload.ShowMerchantResponse{
-		Message: "Product Successfully Loaded",
-		Data:    response,
+		Message: "Merchant Successfully Loaded",
+		Data:    merchant,
 		Err:     false,
 	}
 }
