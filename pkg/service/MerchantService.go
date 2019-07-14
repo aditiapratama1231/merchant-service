@@ -11,7 +11,7 @@ import (
 
 // MerchantService interface
 type MerchantService interface {
-	GetMerchants(payload.GetMerchantsRequest) (payload.GetMerchantsResponse, error)
+	GetMerchantsCoverage(payload.GetMerchantsCoverageRequest) (payload.GetMerchantsResponse, error)
 	ShowMerchant(string) payload.ShowMerchantResponse
 	CreateMerchant(payload.CreateMerchantRequest) payload.CreateMerchantResponse
 	UpdateMerchant(payload.UpdateMerchantRequest, string) payload.UpdateMerchantResponse
@@ -29,37 +29,38 @@ func NewMerchantService(db *gorm.DB) MerchantService {
 }
 
 //GetMerchants for get all merchant
-func (merchantService) GetMerchants(data payload.GetMerchantsRequest) (payload.GetMerchantsResponse, error) {
+func (merchantService) GetMerchantsCoverage(data payload.GetMerchantsCoverageRequest) (payload.GetMerchantsResponse, error) {
 	var (
-		merchants []models.Merchant
-		count     uint32
+		outlets  []models.Outlet
+		location models.Location
 	)
-
+	//pagination
 	offset := (data.PaginationRequest.Page - 1) * data.PaginationRequest.Limit
 
-	query.Find(&merchants).Count(&count)
-	query.Limit(data.PaginationRequest.Limit).Offset(offset).Find(&merchants)
-	for i := range merchants {
-		query.Model(merchants[i]).Related(&merchants[i].Outlets)
+	//1:province,2:city,3:district,4:subdistrict
+	if prd := query.Where("id=? AND type = ? ", data.LocationID, data.Type).First(&location); prd.Error != nil {
+		return payload.GetMerchantsResponse{
+			Message: "Location Not Available",
+			Err:     404,
+		}, nil
 	}
-	for j := range merchants {
-		for k := range merchants[j].Outlets {
-			query.Model(merchants[j].Outlets[k]).Related(&merchants[j].Outlets[k].OutletCoverages)
+	//cannot add count how data is get
+	query.Model(location).Association("Outlet").Find(&outlets)
 
-			for l := range merchants[j].Outlets[k].OutletCoverages {
-				query.Model(merchants[j].Outlets[k].OutletCoverages[l]).Related(&merchants[j].Outlets[k].OutletCoverages[l].Location)
-			}
-		}
+	//query.Limit(data.PaginationRequest.Limit).Offset(offset).Find(&outlets)
+	for i := range outlets {
+		query.Model(outlets[i]).Related(&outlets[i].Merchant)
 	}
 
 	return payload.GetMerchantsResponse{
 		CurrentPage: data.PaginationRequest.Page,
-		Data:        merchants,
+		Data:        outlets,
 		From:        offset + 1,
 		To:          data.PaginationRequest.Page * data.PaginationRequest.Limit,
 		PerPage:     data.PaginationRequest.Limit,
-		Total:       count,
+		//Total:       count,
 	}, nil
+
 }
 
 //ShowMerchant show merchant by id
@@ -74,37 +75,37 @@ func (merchantService) ShowMerchant(id string) payload.ShowMerchantResponse {
 			Err:     true,
 		}
 	}
-	query.Model(merchant).Related(&merchant.Outlets)
+	//query.Model(merchant).Related(&merchant.Outlets)
 
-	for k := range merchant.Outlets {
-		query.Model(merchant.Outlets[k]).Related(&merchant.Outlets[k].OutletCoverages)
+	// for k := range merchant.Outlets {
+	// 	query.Model(merchant.Outlets[k]).Related(&merchant.Outlets[k].OutletCoverages)
 
-		for l := range merchant.Outlets[k].OutletCoverages {
-			query.Model(merchant.Outlets[k].OutletCoverages[l]).Related(&merchant.Outlets[k].OutletCoverages[l].Location)
-		}
-	}
+	// 	for l := range merchant.Outlets[k].OutletCoverages {
+	// 		query.Model(merchant.Outlets[k].OutletCoverages[l]).Related(&merchant.Outlets[k].OutletCoverages[l].Location)
+	// 	}
+	// }
 
 	//fmt.Println("ini data", a)
 	response := payload.Merchant{
-		ID:             merchant.ID,
-		Subdomain:      merchant.Subdomain,
-		BusinessName:   merchant.BusinessName,
-		BusinessType:   merchant.BusinessType,
-		FirstName:      merchant.FirstName,
-		LastName:       merchant.LastName,
-		Email:          merchant.Email,
-		Mobile:         merchant.Mobile,
-		Password:       merchant.Password,
-		Status:         merchant.Status,
-		APISecretKey:   merchant.APISecretKey,
-		Passcode:       merchant.Passcode,
-		ProfilePicture: merchant.ProfilePicture,
-		LocationID:     merchant.LocationID,
-		IsStore:        merchant.IsStore,
-		IsMitra:        merchant.IsMitra,
-		ReferralCode:   merchant.ReferralCode,
-		IsSupplier:     merchant.IsSupplier,
-		Outlets:        merchant.Outlets,
+		// ID:             merchant.ID,
+		// Subdomain:      merchant.Subdomain,
+		// BusinessName:   merchant.BusinessName,
+		// BusinessType:   merchant.BusinessType,
+		// FirstName:      merchant.FirstName,
+		// LastName:       merchant.LastName,
+		// Email:          merchant.Email,
+		// Mobile:         merchant.Mobile,
+		// Password:       merchant.Password,
+		// Status:         merchant.Status,
+		// APISecretKey:   merchant.APISecretKey,
+		// Passcode:       merchant.Passcode,
+		// ProfilePicture: merchant.ProfilePicture,
+		// LocationID:     merchant.LocationID,
+		// IsStore:        merchant.IsStore,
+		// IsMitra:        merchant.IsMitra,
+		// ReferralCode:   merchant.ReferralCode,
+		// IsSupplier:     merchant.IsSupplier,
+		// Outlets:        merchant.Outlets,
 	}
 	return payload.ShowMerchantResponse{
 		Message: "Product Successfully Loaded",

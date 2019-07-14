@@ -12,18 +12,21 @@ import (
 	payload "qasir-supplier/merchant/pkg/request/payload"
 )
 
-//DecodeGetMerchantsRequest decode our incoming requests
-func DecodeGetMerchantsRequest(ctx context.Context, r *http.Request) (interface{}, error) {
+//DecodeGetMerchantsCoverageRequest decode our incoming requests
+func DecodeGetMerchantsCoverageRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	v := r.URL.Query()
+	qs := mux.Vars(r)
 	include := strings.Split(strings.Replace(v.Get("include"), " ", "", -1), ",")
 	page, _ := strconv.ParseInt(v.Get("page"), 10, 32)
 	limit, _ := strconv.ParseInt(v.Get("limit"), 10, 32)
-	req := payload.GetMerchantsRequest{
+	req := payload.GetMerchantsCoverageRequest{
 		PaginationRequest: payload.PaginationRequest{
 			Page:    uint32(page),
 			Limit:   uint32(limit),
 			Include: include,
 		},
+		LocationID: qs["location_id"],
+		Type:       qs["type"],
 	}
 	return req, nil
 }

@@ -57,11 +57,11 @@ func main() {
 	endpoints := endpoint.Endpoints{
 
 		// merchant endpoint
-		GetMerchantsEndpoint:   endpoint.MakeGetMerchantsEndpoint(srvMerchant),
-		ShowMerchantEndpoint:   endpoint.MakeShowMerchantEndpoint(srvMerchant),
-		CreateMerchantEndpoint: endpoint.MakeCreateMerchantEndpoint(srvMerchant),
-		UpdateMerchantEndpoint: endpoint.MakeUpdateMerchantEndpoint(srvMerchant),
-		DeleteMerchantEndpoint: endpoint.MakeDeleteMerchantEndpoint(srvMerchant),
+		GetMerchantsCoverageEndpoint: endpoint.MakeGetMerchantsCoverageEndpoint(srvMerchant),
+		ShowMerchantEndpoint:         endpoint.MakeShowMerchantEndpoint(srvMerchant),
+		CreateMerchantEndpoint:       endpoint.MakeCreateMerchantEndpoint(srvMerchant),
+		UpdateMerchantEndpoint:       endpoint.MakeUpdateMerchantEndpoint(srvMerchant),
+		DeleteMerchantEndpoint:       endpoint.MakeDeleteMerchantEndpoint(srvMerchant),
 
 		// outlet endpoint
 		GetOutletsEndpoint:           endpoint.MakeGetOutletsEndpoint(srvOutlet),

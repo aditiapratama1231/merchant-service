@@ -9,11 +9,11 @@ import (
 	"github.com/go-kit/kit/endpoint"
 )
 
-//MakeGetMerchantsEndpoint make endpoint
-func MakeGetMerchantsEndpoint(srv service.MerchantService) endpoint.Endpoint {
+//MakeGetMerchantsCoverageEndpoint make endpoint
+func MakeGetMerchantsCoverageEndpoint(srv service.MerchantService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(payload.GetMerchantsRequest)
-		d, err := srv.GetMerchants(req)
+		req := request.(payload.GetMerchantsCoverageRequest)
+		d, err := srv.GetMerchantsCoverage(req)
 		if err != nil {
 			return d, nil
 		}

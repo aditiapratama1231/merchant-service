@@ -18,9 +18,9 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 	s.Use(commonMiddleware) // @see https://stackoverflow.com/a/51456342
 
 	// merchant handler
-	getMerchantsHandler := httptransport.NewServer(
-		endpoints.GetMerchantsEndpoint,
-		request.DecodeGetMerchantsRequest,
+	getMerchantsCoverageHandler := httptransport.NewServer(
+		endpoints.GetMerchantsCoverageEndpoint,
+		request.DecodeGetMerchantsCoverageRequest,
 		request.EncodeResponse,
 	)
 
@@ -117,7 +117,7 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 	)
 
 	// merchant handler
-	s.Handle("", getMerchantsHandler).Methods("GET")
+	s.Handle("/{location_id}/{type}/locations", getMerchantsCoverageHandler).Methods("GET")
 	s.Handle("/create", createMerchantHandler).Methods("POST")
 	s.Handle("/{id}", showMerchantHandler).Methods("GET")
 	s.Handle("/{id}/update", updateMerchanthandler).Methods("PATCH")
@@ -137,6 +137,7 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 	s.Handle("/locations/{id}/update", updateLocationHandler).Methods("PATCH")
 	s.Handle("/locations/{id}/delete", deleteLocationHandler).Methods("DELETE")
 
+	//this endpooint must be refactor using many many relation
 	//handle outlet can add location, payload outlet id and location id post send to outlet_coverage
 	s.Handle("/outlets/add/locations", createOutletLocationHandler).Methods("POST")
 

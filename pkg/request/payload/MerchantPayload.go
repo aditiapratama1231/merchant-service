@@ -27,20 +27,23 @@ type Merchant struct {
 	Outlets        []models.Outlet `gorm:"foreignkey:merchant_id" json:"outlets"`
 }
 
-//GetMerchantsRequest show all merchant
-type GetMerchantsRequest struct {
+//GetMerchantsCoverageRequest /
+type GetMerchantsCoverageRequest struct {
 	PaginationRequest
+	LocationID string `json:"location_id"`
+	Type       string `json:"type"`
 }
 
 // GetMerchantsResponse struct contain response from server
 type GetMerchantsResponse struct {
-	Err         string            `json:"err,omitempty"`
-	CurrentPage uint32            `json:"current_page"`
-	From        uint32            `json:"from"`
-	PerPage     uint32            `json:"per_page"`
-	Total       uint32            `json:"total"`
-	To          uint32            `json:"to"`
-	Data        []models.Merchant `json:"data"`
+	Message     string          `json:"message,omitempty"`
+	Err         int16           `json:"err,omitempty"`
+	CurrentPage uint32          `json:"current_page,omitempty"`
+	From        uint32          `json:"from,omitempty"`
+	PerPage     uint32          `json:"per_page,omitempty"`
+	Total       uint32          `json:"total,omitempty"`
+	To          uint32          `json:"to,omitempty"`
+	Data        []models.Outlet `json:"data,omitempty"`
 }
 
 //MerchantRequest struct
