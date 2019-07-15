@@ -104,6 +104,12 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 		request.EncodeResponse,
 	)
 
+	showLocationOutletsHandler := httptransport.NewServer(
+		endpoints.ShowLocationOutletsEndpoint,
+		request.DecodeShowLocationRequestOutlets,
+		request.EncodeResponse,
+	)
+
 	createLocationHandler := httptransport.NewServer(
 		endpoints.CreateLocationEndpoint,
 		request.DecodeCreateLocationRequest,
@@ -148,7 +154,7 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 	s.Handle("/locations/{id}/delete", deleteLocationHandler).Methods("DELETE")
 
 	// // handle show location with location_id ? and its location
-	// s.Handle("locations/{location_id}/outlets").Methods("GET")
+	s.Handle("/locations/{id}/outlets", showLocationOutletsHandler).Methods("GET")
 
 	return s
 }

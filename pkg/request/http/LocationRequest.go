@@ -25,6 +25,15 @@ func DecodeShowLocationRequest(ctx context.Context, r *http.Request) (interface{
 	return req, nil
 }
 
+//DecodeShowLocationRequestOutlets /
+func DecodeShowLocationRequestOutlets(ctx context.Context, r *http.Request) (interface{}, error) {
+	qs := mux.Vars(r)
+	req := payload.ShowLocationRequest{
+		ID: qs["id"],
+	}
+	return req, nil
+}
+
 // DecodeCreateLocationRequest decode our incoming request
 func DecodeCreateLocationRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	var req payload.CreateLocationRequest

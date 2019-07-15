@@ -36,6 +36,18 @@ func MakeShowLocationEndpoint(srv service.LocationService) endpoint.Endpoint {
 	}
 }
 
+//MakeShowLocationsOutletEndpoint /
+func MakeShowLocationsOutletsEndpoint(srv service.LocationService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(payload.ShowLocationRequest)
+		d, err := srv.ShowLocationOutlets(req.ID)
+		if err != nil {
+			return d, nil
+		}
+		return d, nil
+	}
+}
+
 //MakeCreateLocationEndpoint //
 func MakeCreateLocationEndpoint(srv service.LocationService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {

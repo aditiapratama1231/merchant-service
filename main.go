@@ -73,11 +73,12 @@ func main() {
 		DeleteOutletEndpoint:         endpoint.MakeDeleteOutletEndpoint(srvOutlet),
 
 		// location endpoint
-		GetLocationsEndpoint:   endpoint.MakeGetLocationsEndpoint(srvLocation),
-		ShowLocationEndpoint:   endpoint.MakeShowLocationEndpoint(srvLocation),
-		CreateLocationEndpoint: endpoint.MakeCreateLocationEndpoint(srvLocation),
-		UpdateLocationEndpoint: endpoint.MakeUpdateLocationEndpoint(srvLocation),
-		DeleteLocationEndpoint: endpoint.MakeDeleteLocationEndpoint(srvLocation),
+		GetLocationsEndpoint:        endpoint.MakeGetLocationsEndpoint(srvLocation),
+		ShowLocationEndpoint:        endpoint.MakeShowLocationEndpoint(srvLocation),
+		CreateLocationEndpoint:      endpoint.MakeCreateLocationEndpoint(srvLocation),
+		UpdateLocationEndpoint:      endpoint.MakeUpdateLocationEndpoint(srvLocation),
+		DeleteLocationEndpoint:      endpoint.MakeDeleteLocationEndpoint(srvLocation),
+		ShowLocationOutletsEndpoint: endpoint.MakeShowLocationsOutletsEndpoint(srvLocation),
 	}
 
 	// Run HTTP Server

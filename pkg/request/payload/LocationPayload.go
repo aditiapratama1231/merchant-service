@@ -46,6 +46,13 @@ type CreateLocationRequest struct {
 	Location
 }
 
+//ShowLocationOutletsResponse /
+type ShowLocationOutletsResponse struct {
+	Message string          `json:"message,omitempty"`
+	Data    []models.Outlet `json:"Data,omitempty"`
+	Err     int32           `json:"err,omitempty"`
+}
+
 //CreateLocationResponse struct contain resp from server
 type CreateLocationResponse struct {
 	Message    string `json:"message"`

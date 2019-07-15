@@ -13,6 +13,7 @@ import (
 type LocationService interface {
 	GetLocations() (*[]models.Location, error)
 	ShowLocation(string) (models.Location, error)
+	ShowLocationOutlets(string) (payload.ShowLocationOutletsResponse, error)
 	CreateLocation(payload.CreateLocationRequest) payload.CreateLocationResponse
 	UpdateLocation(payload.UpdateLocationRequest, string) payload.UpdateLocationResponse
 	DeleteLocation(string) payload.DeleteLocationResponse
@@ -42,6 +43,25 @@ func (locationService) ShowLocation(id string) (models.Location, error) {
 	var location models.Location
 	query.Find(&location, id)
 	return location, nil
+}
+
+//ShowLocationOutlets//
+func (locationService) ShowLocationOutlets(id string) (payload.ShowLocationOutletsResponse, error) {
+	var (
+		outlet   []models.Outlet
+		location models.Location
+	)
+
+	if prd := query.Where("id=?", id).First(&location); prd.Error != nil {
+		return payload.ShowLocationOutletsResponse{
+			Message: "Outlet Not Found",
+			Err:     404,
+		}, nil
+	}
+	query.Model(location).Association("Outlet").Find(&outlet)
+	return payload.ShowLocationOutletsResponse{
+		Data: outlet,
+	}, nil
 }
 
 func (locationService) CreateLocation(data payload.CreateLocationRequest) payload.CreateLocationResponse {
@@ -97,8 +117,6 @@ func (locationService) UpdateLocation(data payload.UpdateLocationRequest, id str
 //DeleteLocation delete data
 func (locationService) DeleteLocation(id string) payload.DeleteLocationResponse {
 	var location models.Location
-	//fmt.Println("merchant", &outlet)
-	//fmt.Println("here", query)
 	if query.Find(&location, id).RecordNotFound() {
 		return payload.DeleteLocationResponse{
 			Message:    "Location Not Found",
@@ -106,7 +124,6 @@ func (locationService) DeleteLocation(id string) payload.DeleteLocationResponse 
 		}
 	}
 	query.Delete(&location)
-
 	return payload.DeleteLocationResponse{
 		Message:    "Location Successfully Deleted",
 		StatusCode: 200,
