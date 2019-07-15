@@ -66,6 +66,7 @@ func main() {
 		// outlet endpoint
 		GetOutletsEndpoint:           endpoint.MakeGetOutletsEndpoint(srvOutlet),
 		ShowOutletEndpoint:           endpoint.MakeShowOutletEndpoint(srvOutlet),
+		ShowOutletLocationsEndpoint:  endpoint.MakeShowOutletLocationsEndpoint(srvOutlet),
 		CreateOutletEndpoint:         endpoint.MakeCreateOutletEndpoint(srvOutlet),
 		CreateOutletLocationEndpoint: endpoint.MakeCreateOutletLocationEndpoint(srvOutlet),
 		UpdateOutletEndpoint:         endpoint.MakeUpdateOutletEndpoint(srvOutlet),

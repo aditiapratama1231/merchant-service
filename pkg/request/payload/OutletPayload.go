@@ -44,11 +44,22 @@ type ShowOutletRequest struct {
 	ID string `json:"id"`
 }
 
+// type ShowOutletLocationsRequest struct {
+// 	OutletID	string `json:`
+// }
+
 //ShowOutletResponse from our server
 type ShowOutletResponse struct {
 	Message string        `json:"message,omitempty"`
-	Outlet  models.Outlet `json:"outlet,omitempty"`
+	Data    models.Outlet `json:"Data,omitempty"`
 	Err     int32         `json:"err,omitempty"`
+}
+
+//ShowOutletLocationsResponse /
+type ShowOutletLocationsResponse struct {
+	Message string            `json:"message,omitempty"`
+	Data    []models.Location `json:"Data,omitempty"`
+	Err     int32             `json:"err,omitempty"`
 }
 
 //CreateOutletRequest to our server

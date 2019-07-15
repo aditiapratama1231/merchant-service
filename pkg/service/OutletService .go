@@ -13,7 +13,7 @@ import (
 type OutletService interface {
 	GetOutlets() (*[]models.Outlet, error)
 	ShowOutlet(string) (models.Outlet, error)
-	ShowOutletLocations(string) (payload.ShowOutletResponse, error)
+	ShowOutletLocations(string) (payload.ShowOutletLocationsResponse, error)
 	CreateOutlet(payload.CreateOutletRequest) payload.CreateOutletResponse
 	UpdateOutlet(payload.UpdateOutletRequest, string) payload.UpdateOutletResponse
 	DeleteOutlet(string) payload.DeleteOutletResponse
@@ -47,21 +47,21 @@ func (outletService) ShowOutlet(id string) (models.Outlet, error) {
 }
 
 //ShowOutletLocations//
-func (outletService) ShowOutletLocations(id string) (payload.ShowOutletResponse, error) {
+func (outletService) ShowOutletLocations(id string) (payload.ShowOutletLocationsResponse, error) {
 	var (
-		outlet models.Outlet
-		//locations []models.Location
+		outlet   models.Outlet
+		location []models.Location
 	)
 
 	if prd := query.Where("id=?", id).First(&outlet); prd.Error != nil {
-		return payload.ShowOutletResponse{
+		return payload.ShowOutletLocationsResponse{
 			Message: "Outlet Not Found",
 			Err:     404,
 		}, nil
 	}
-
-	return payload.ShowOutletResponse{
-		Outlet: outlet,
+	query.Model(outlet).Association("Location").Find(&location)
+	return payload.ShowOutletLocationsResponse{
+		Data: location,
 	}, nil
 }
 

@@ -61,6 +61,12 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 		request.EncodeResponse,
 	)
 
+	showOutletLocationsHandler := httptransport.NewServer(
+		endpoints.ShowOutletLocationsEndpoint,
+		request.DecodeShowOutletLocationsRequest,
+		request.EncodeResponse,
+	)
+
 	createOutletHandler := httptransport.NewServer(
 		endpoints.CreateOutletEndpoint,
 		request.DecodeCreateOutletRequest,
@@ -129,6 +135,10 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 	s.Handle("/outlets/{id}", showOutletHandler).Methods("GET")
 	s.Handle("/outlets/{id}/update", updateOutletHandler).Methods("PATCH")
 	s.Handle("/outlets/{id}/delete", deleteOutletHandler).Methods("DELETE")
+	//handle outlet can add location, payload outlet id and location id post send to outlet_coverage
+	s.Handle("/outlets/add/locations", createOutletLocationHandler).Methods("POST")
+	// //handle show outlet  with outlet id ? and its location
+	s.Handle("/outlets/{id}/locations/", showOutletLocationsHandler).Methods("GET")
 
 	// location handler
 	s.Handle("/locations/", getLocationsHandler).Methods("GET")
@@ -136,13 +146,6 @@ func NewHTTPServer(ctx context.Context, endpoints endpoint.Endpoints) http.Handl
 	s.Handle("/locations/{id}", showLocationHandler).Methods("GET")
 	s.Handle("/locations/{id}/update", updateLocationHandler).Methods("PATCH")
 	s.Handle("/locations/{id}/delete", deleteLocationHandler).Methods("DELETE")
-
-	//this endpoint must be refactor using many many relation
-	//handle outlet can add location, payload outlet id and location id post send to outlet_coverage
-	s.Handle("/outlets/add/locations", createOutletLocationHandler).Methods("POST")
-
-	// //handle show outlet  with outlet id ? and its location
-	// s.Handle("outlets/{outlet_id}/locations").Methods("GET")
 
 	// // handle show location with location_id ? and its location
 	// s.Handle("locations/{location_id}/outlets").Methods("GET")
