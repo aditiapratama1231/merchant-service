@@ -25,6 +25,15 @@ func DecodeShowOutletRequest(ctx context.Context, r *http.Request) (interface{},
 	return req, nil
 }
 
+//DecodeShowOutletLocationRequest /
+func DecodeShowOutletLocationRequest(ctx context.Context, r *http.Request) (interface{}, error) {
+	qs := mux.Vars(r)
+	req := payload.ShowOutletRequest{
+		ID: qs["id"],
+	}
+	return req, nil
+}
+
 // DecodeCreateOutletRequest decode our incoming request
 func DecodeCreateOutletRequest(ctx context.Context, r *http.Request) (interface{}, error) {
 	var req payload.CreateOutletRequest

@@ -46,8 +46,9 @@ type ShowOutletRequest struct {
 
 //ShowOutletResponse from our server
 type ShowOutletResponse struct {
-	Outlet models.Outlet `json:"outlet,omitempty"`
-	Err    string        `json:"err,omitempty"`
+	Message string        `json:"message,omitempty"`
+	Outlet  models.Outlet `json:"outlet,omitempty"`
+	Err     int32         `json:"err,omitempty"`
 }
 
 //CreateOutletRequest to our server

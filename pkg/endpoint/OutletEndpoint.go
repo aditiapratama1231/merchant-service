@@ -30,9 +30,9 @@ func MakeShowOutletEndpoint(srv service.OutletService) endpoint.Endpoint {
 		d, err := srv.ShowOutlet(req.ID)
 
 		if err != nil {
-			return payload.ShowOutletResponse{d, err.Error()}, nil
+			return d, nil
 		}
-		return payload.ShowOutletResponse{d, ""}, nil
+		return d, nil
 	}
 }
 
@@ -69,6 +69,18 @@ func MakeCreateOutletLocationEndpoint(srv service.OutletService) endpoint.Endpoi
 		req := request.(payload.CreateOutletLocationRequest)
 		d := srv.CreateOutletLocation(req)
 		return payload.CreateOutletLocationResponse{d.Message, d.StatusCode}, nil
+	}
+}
+
+//MakeShowOutletLocations /
+func MakeShowOutletLocations(srv service.OutletService) endpoint.Endpoint {
+	return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(payload.ShowOutletRequest)
+		d, err := srv.ShowOutletLocations(req.ID)
+		if err != nil {
+			return d, nil
+		}
+		return d, nil
 	}
 }
 
